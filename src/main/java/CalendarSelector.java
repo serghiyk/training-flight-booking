@@ -1,6 +1,7 @@
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import com.sun.istack.internal.NotNull;
 import org.openqa.selenium.By;
 
 import java.util.Calendar;
@@ -29,7 +30,7 @@ public class CalendarSelector {
 
     private SelenideElement searchButton = $("#search-button-hp-package");
 
-    CommonMethods commonMethods = new CommonMethods();
+    private CommonMethods commonMethods = new CommonMethods();
 
     public CalendarSelector open(){
         Selenide.open("/");
@@ -57,10 +58,6 @@ public class CalendarSelector {
         return departure_or_destinationField.getValue();
     }
 
-//    private String getEnteredAddressFromField(SelenideElement fieldElement){
-//        return fieldElement.getText();
-//    }
-
     public boolean fillAndSelectDepartureAddress(String address){
         enterDepartureAddress(address);
         return chooseSuggestedAddress(departureLocation).contains(address);
@@ -72,26 +69,23 @@ public class CalendarSelector {
     }
 
 
-
-    public void openDepartureCalendar(){
-//        if (!calendarPopUp.isDisplayed())
-            departureApartmentField.click();
+    private void openDepartureCalendar(){
+        departureApartmentField.click();
     }
 
-    public void openReturningCalendar(){
-//        if (!calendarPopUp.isDisplayed())
-            returningApartmentField.click();
+    private void openReturningCalendar(){
+        returningApartmentField.click();
     }
 
-    public int getCellYear(SelenideElement year){
+    private int getCellYear(SelenideElement year){
         return Integer.parseInt(year.getAttribute("data-year"));
     }
 
-    public int getCellMonth(SelenideElement month){
+    private int getCellMonth(SelenideElement month){
         return Integer.parseInt(month.getAttribute("data-month")) + 1;
     }
 
-    public int getCellDay(SelenideElement day){
+    private int getCellDay(SelenideElement day){
         return Integer.parseInt(day.getAttribute("data-day"));
     }
 
@@ -109,7 +103,7 @@ public class CalendarSelector {
             System.out.println("Next Month button is not available");
     }
 
-    private SelenideElement isSomeDayInMonthAvailable(ElementsCollection fullMonthCollection){
+    public SelenideElement isSomeDayInMonthAvailable(ElementsCollection fullMonthCollection){
         for (SelenideElement element: fullMonthCollection) {
             if (element.isEnabled()) {
                 return element;
@@ -146,7 +140,7 @@ public class CalendarSelector {
         return false;
     }
 
-    public void findMonth(int monthRequired){
+    private void findMonth(int monthRequired){
         if (monthRequired < 1 || monthRequired > 12){
             System.out.println("Invalid month number");
         }
@@ -156,40 +150,17 @@ public class CalendarSelector {
         }
     }
 
-    public void findYear(int yearRequired){
+    private void findYear(int yearRequired){
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-        if (yearRequired < currentYear || yearRequired > currentYear + 20){
+        if (yearRequired < currentYear || yearRequired > currentYear + 1){
             System.out.println("Invalid year");
         }
         else{
+            while (previousMonthButton.isDisplayed())
+                    goToPreviousMonth();
             while (!isRequiredYearDisplayed(yearRequired))
                 goToNextMonth();
         }
-    }
-
-
-    public int getFirstAvailableDay(ElementsCollection availableDaysList){
-        System.out.println("first day: " + availableDaysList.get(0).getAttribute("data-day"));
-        return Integer.parseInt(availableDaysList.get(0).getAttribute("data-day"));
-    }
-
-    public boolean isDayAvailable(ElementsCollection availableDaysList, int requiredDay){
-        for (SelenideElement element : availableDaysList){
-            if (element.getAttribute("data-day").equals(Integer.toString(requiredDay)))
-                return true;
-        }
-        return false;
-    }
-
-    public void getRequiredDay(ElementsCollection collection, int requiredDay){
-        for (SelenideElement element : collection) {
-            if (element.getAttribute("data-day").equals(Integer.toString(requiredDay)))
-                element.click();
-        }
-    }
-
-    public int getDaysCountInMonth(ElementsCollection fullMonthCollection){
-        return fullMonthCollection.size();
     }
 
     public SelenideElement findRequiredDay(int dayOfTheMonth, int month, int year){
@@ -204,39 +175,6 @@ public class CalendarSelector {
         }
         return null;
     }
-
-
-//    public void selectFromLeftBox(int dayOfTheMonth){
-//        if (getAvailableDaysCollection(leftMonthBoxDays).size() > 0){
-//            if (isDayAvailable(leftMonthBoxDays, dayOfTheMonth)){
-//                getRequiredDay(leftMonthBoxDays, dayOfTheMonth);
-////                int indexOfRequiredDay = getIndexOfTheDay(leftMonthBoxDays, dayOfTheMonth);
-////                leftMonthBoxDays.get(indexOfRequiredDay).click();
-//            }
-//            else{
-//                System.out.println("No flights available for selected day");
-//            }
-//        }
-//        else{
-//            System.out.println("No available flights in thins month");
-//        }
-//    }
-//
-//    public void selectFromRightBox(int dayOfTheMonth){
-//        if (getAvailableDaysCollection(rightMonthBoxDays).size() > 0){
-//            if (isDayAvailable(rightMonthBoxDays, dayOfTheMonth)){
-//                getRequiredDay(rightMonthBoxDays, dayOfTheMonth);
-////                int indexOfRequiredDay = getIndexOfTheDay(rightMonthBoxDays, dayOfTheMonth);
-////                rightMonthBoxDays.get(indexOfRequiredDay).click();
-//            }
-//            else{
-//                System.out.println("No flights available for selected day");
-//            }
-//        }
-//        else{
-//            System.out.println("No available flights in this month");
-//        }
-//    }
 
     public void selectDayFromPopUp(int dayOfTheMonth, int month, int year) {
         if (calendarPopUp.isDisplayed()) {
