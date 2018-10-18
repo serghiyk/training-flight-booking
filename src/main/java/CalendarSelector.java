@@ -24,7 +24,8 @@ public class CalendarSelector {
     private ElementsCollection twoMonthsDays = $$(By.xpath("//div[@class='datepicker-dropdown']/div/div//tbody//button"));
     private ElementsCollection leftMonthBoxDays = $$(By.xpath("//div[@class='datepicker-dropdown']/div/div[2]//tbody//button"));
     private ElementsCollection rightMonthBoxDays = $$(By.xpath("//div[@class='datepicker-dropdown']/div/div[3]//tbody//button"));
-    private SelenideElement nextMonthButton = $(By.xpath("//div[@class='datepicker-dropdown']/div//button[2]"));
+    private SelenideElement previousMonthButton = $(By.xpath("//div[@class='datepicker-dropdown']/div/button[1]"));
+    private SelenideElement nextMonthButton = $(By.xpath("//div[@class='datepicker-dropdown']/div/button[2]"));
 
     private SelenideElement searchButton = $("#search-button-hp-package");
 
@@ -94,8 +95,18 @@ public class CalendarSelector {
         return Integer.parseInt(day.getAttribute("data-day"));
     }
 
-    public void goToNextMonth(){
-        nextMonthButton.click();
+    private void goToPreviousMonth() {
+        if (previousMonthButton.isDisplayed())
+            previousMonthButton.click();
+        else
+            System.out.println("Previous Month button is not available");
+    }
+
+    private void goToNextMonth(){
+        if (nextMonthButton.isDisplayed())
+            nextMonthButton.click();
+        else
+            System.out.println("Next Month button is not available");
     }
 
     private SelenideElement isSomeDayInMonthAvailable(ElementsCollection fullMonthCollection){
@@ -177,7 +188,7 @@ public class CalendarSelector {
         }
     }
 
-    public int getDaysInMonth(ElementsCollection fullMonthCollection){
+    public int getDaysCountInMonth(ElementsCollection fullMonthCollection){
         return fullMonthCollection.size();
     }
 
