@@ -45,12 +45,10 @@ public class CalendarSelector {
     private String decreaseValueForTravelersXPath = "..//button[@class='uitk-step-input-button uitk-step-input-minus']";
     private String increaseValueForTravelersXPath = "..//button[@class='uitk-step-input-button uitk-step-input-plus']";
     private String currentNumberOfPersonsXPath = "..//span[@class='uitk-step-input-value']";
-    private SelenideElement childrenSection = $(By.xpath("//div[@class='children-wrapper']"));
-    private SelenideElement infantsSection = $(By.xpath("//div[@class='infants-wrapper']"));
     private String childrenAgeSelectorsXPath = "..//div[@class='children-wrapper']//select";
     private String infantsAgeSelectorsXPath = "..//div[@class='infants-wrapper']//select";
 
-
+    private String removeRoomXPath = "//a[@class='secondary gcw-remove-cloned-field']";
 
 
 
@@ -417,6 +415,24 @@ public class CalendarSelector {
             return false;
         }
         return roomsForTravelers.size() == totalRequiredNumberOfRooms;
+    }
+
+    private void deleteRoom(int roomNumber){
+        openTravelersPopUp();
+        if (roomsForTravelers.size() < roomNumber)
+            System.out.println("There is no such room to delete");
+        else if (roomNumber > 3 || roomNumber == 1)
+            System.out.println("Room number can't be bigger than 3 and you can't delete Room #1");
+        else{
+            SelenideElement room = getElementForRoom(roomNumber);
+            room.$(By.xpath(removeRoomXPath)).click();
+        }
+    }
+
+    public boolean isRoomDeleted(int roomNumber){
+        int roomCount = roomsForTravelers.size();
+        deleteRoom(roomNumber);
+        return roomsForTravelers.size() < roomCount;
     }
 
 

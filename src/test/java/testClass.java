@@ -88,5 +88,12 @@ public class testClass extends ConfigurationFile{
         Assert.assertTrue(calendarSelector.selectValueFromInfantsDropDown(1, "Under 1", 2));
     }
 
+    @Test(priority = 8)
+    public void deleteRoomNo2(){
+        calendarSelector.openTravelersPopUp();
+        calendarSelector.addRooms(3);
+        Assert.assertTrue(calendarSelector.isRoomDeleted(2));
+    }
+
 
 }
