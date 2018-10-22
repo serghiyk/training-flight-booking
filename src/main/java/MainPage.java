@@ -3,17 +3,14 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
-import javax.swing.plaf.synth.SynthToolTipUI;
 import java.util.Calendar;
 import java.util.Random;
 
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.url;
 
-public class CalendarSelector {
+public class MainPage {
 
     private SelenideElement departureLocation = $("#package-origin-hp-package");
     private SelenideElement destinationLocation = $("#package-destination-hp-package");
@@ -57,7 +54,7 @@ public class CalendarSelector {
 
     private CommonMethods commonMethods = new CommonMethods();
 
-    public CalendarSelector open(){
+    public MainPage open(){
         Selenide.open("/");
         return this;
     }
