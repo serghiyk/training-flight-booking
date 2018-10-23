@@ -1,0 +1,7 @@
+<suite name="TestSuite">
+    <test name="OrderingFlight">
+        <classes>
+            <class name = "testClass"></class>
+        </classes>
+    </test>
+</suite>
